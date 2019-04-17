@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 /**
 * @author 许宝予
@@ -16,7 +19,7 @@ import java.util.List;
 @Service
 public class AnnouncementService{
 
-    @Autowired
+    @Resource
     private AnnouncementMapper announcementmapper;
 
     /**
@@ -25,6 +28,13 @@ public class AnnouncementService{
      * @param announcement announcement对象
      */
     public void addAnnouncement(Announcement announcement) {
+        if (announcement.getCreatTime() == null){
+            announcement.setCreatTime(new Date());
+        }
+        if (announcement.getUpdateTime() == null){
+            announcement.setUpdateTime(new Date());
+        }
+        announcement.setDeleted("N");
         int count = this.announcementmapper.insertSelective(announcement);
         if(count != 1){
              throw new CommonException(ExceptionEnum.SAVE_FAILURE);
@@ -37,10 +47,17 @@ public class AnnouncementService{
      * @param id 主键
      */
     public void deleteAnnouncementById(Integer id) {
-        int count = this.announcementmapper.deleteByPrimaryKey(id);
-        if(count != 1){
-             throw new CommonException(ExceptionEnum.DELETE_FAILURE);
+
+        Example example = new Example(Announcement.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<Announcement> list = this.announcementmapper.selectByExample(example);
+        if (list.size() != 1){
+            throw new CommonException(ExceptionEnum.NULL_LIST);
         }
+        Announcement announcement = new Announcement();
+        announcement.setId(list.get(0).getId());
+        announcement.setDeleted("Y");
+        updateAnnouncement(announcement);
     }
 
     /**
