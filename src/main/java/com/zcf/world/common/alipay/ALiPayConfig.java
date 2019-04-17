@@ -1,7 +1,7 @@
 package com.zcf.world.common.alipay;
 
 /**
- * 支付宝支付所需的必要参数 理想情况下只需配置此处
+ * 支付宝支付所需的必要参数 理想情况下只需配置此处？？
  */
 public class ALiPayConfig {
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串
