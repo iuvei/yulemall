@@ -28,7 +28,7 @@ public class User{
     private String payPwd;
     @ApiModelProperty(value = "账户余额", position = 6)
     private Date money;
-    @ApiModelProperty(value = "头像", position = 7)
+    @ApiModelProperty(value = "用户头像", position = 7)
     private String img;
     @ApiModelProperty(value = "创建时间", position = 8)
     private Date creatTime;
