@@ -7,7 +7,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import tk.mybatis.mapper.entity.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 /**
 * @author ${author}
@@ -16,26 +17,44 @@ import java.util.List;
 @Service
 public class LayUi${modelNameUpperCamel}Service{
 
-    @Autowired
+    @Resource
     private ${modelNameUpperCamel}Mapper LayUi${modelNameUpperCamel}Mapper;
 
     /**
     *新增数据
     */
     public boolean add(${modelNameUpperCamel} ${modelNameLowerCamel}) {
+        if (${modelNameLowerCamel}.getCreatTime() == null){
+            ${modelNameLowerCamel}.setCreatTime(new Date());
+        }
+        if (${modelNameLowerCamel}.getUpdateTime() == null){
+            ${modelNameLowerCamel}.setUpdateTime(new Date());
+        }
+        ${modelNameLowerCamel}.setDeleted("N");
         return this.LayUi${modelNameUpperCamel}Mapper.insert(${modelNameLowerCamel}) == 1;
     }
     /**
     *根据主键删除数据
     */
     public boolean delete(Integer id) {
-        return this.LayUi${modelNameUpperCamel}Mapper.deleteByPrimaryKey(id) == 1;
+        Example example = new Example(${modelNameUpperCamel}.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<${modelNameUpperCamel}> list = this.LayUi${modelNameUpperCamel}Mapper.selectByExample(example);
+        if (list.size() != 1){
+            return false;
+        }
+        ${modelNameUpperCamel} ${modelNameLowerCamel} = new ${modelNameUpperCamel}();
+        ${modelNameLowerCamel}.setId(list.get(0).getId());
+        ${modelNameLowerCamel}.setDeleted("Y");
+        ${modelNameLowerCamel}.setUpdateTime(new Date());
+        return this.update(${modelNameLowerCamel});
     }
 
     /**
     *根据主键更新非空数据
     */
     public boolean update(${modelNameUpperCamel} ${modelNameLowerCamel}) {
+        ${modelNameLowerCamel}.setUpdateTime(new Date());
         return this.LayUi${modelNameUpperCamel}Mapper.updateByPrimaryKeySelective(${modelNameLowerCamel}) == 1;
     }
 

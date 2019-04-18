@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 /**
 * @author 许宝予
@@ -16,7 +19,7 @@ import java.util.List;
 @Service
 public class BettingRecordService{
 
-    @Autowired
+    @Resource
     private BettingRecordMapper bettingRecordmapper;
 
     /**
@@ -25,6 +28,13 @@ public class BettingRecordService{
      * @param bettingRecord bettingRecord对象
      */
     public void addBettingRecord(BettingRecord bettingRecord) {
+        if (bettingRecord.getCreatTime() == null){
+            bettingRecord.setCreatTime(new Date());
+        }
+        if (bettingRecord.getUpdateTime() == null){
+            bettingRecord.setUpdateTime(new Date());
+        }
+        bettingRecord.setDeleted("N");
         int count = this.bettingRecordmapper.insertSelective(bettingRecord);
         if(count != 1){
              throw new CommonException(ExceptionEnum.SAVE_FAILURE);
@@ -37,10 +47,17 @@ public class BettingRecordService{
      * @param id 主键
      */
     public void deleteBettingRecordById(Integer id) {
-        int count = this.bettingRecordmapper.deleteByPrimaryKey(id);
-        if(count != 1){
-             throw new CommonException(ExceptionEnum.DELETE_FAILURE);
+        Example example = new Example(BettingRecord.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<BettingRecord> list = this.bettingRecordmapper.selectByExample(example);
+        if (list.size() != 1){
+            throw new CommonException(ExceptionEnum.NULL_LIST);
         }
+        BettingRecord bettingRecord = new BettingRecord();
+        bettingRecord.setId(list.get(0).getId());
+        bettingRecord.setDeleted("Y");
+        bettingRecord.setUpdateTime(new Date());
+        updateBettingRecord(bettingRecord);
     }
 
     /**
@@ -49,6 +66,7 @@ public class BettingRecordService{
      * @param bettingRecord bettingRecord对象
      */
     public void updateBettingRecord(BettingRecord bettingRecord) {
+        bettingRecord.setUpdateTime(new Date());
         int count = this.bettingRecordmapper.updateByPrimaryKeySelective(bettingRecord);
          if(count != 1){
              throw new CommonException(ExceptionEnum.UPDATE_FAILURE);
@@ -61,9 +79,11 @@ public class BettingRecordService{
      * @return BettingRecord对象集合
      */
     public List<BettingRecord> getAllBettingRecord() {
-        List<BettingRecord> list = this.bettingRecordmapper.selectAll();
+        Example example = new Example(BettingRecord.class);
+        example.createCriteria().andEqualTo("deleted","N");
+        List<BettingRecord> list = this.bettingRecordmapper.selectByExample(example);
        if(CollectionUtils.isEmpty(list)){
-            throw new CommonException(ExceptionEnum.DATA_DOES_NOT_EXIST);
+            return null;
         }
         return list;
     }

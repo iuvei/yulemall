@@ -10,6 +10,7 @@ import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 /**
 * @author 许宝予
@@ -27,6 +28,13 @@ public class BannerService{
      * @param banner banner对象
      */
     public void addBanner(Banner banner) {
+        if (banner.getCreatTime() == null){
+            banner.setCreatTime(new Date());
+        }
+        if (banner.getUpdateTime() == null){
+            banner.setUpdateTime(new Date());
+        }
+        banner.setDeleted("N");
         int count = this.bannermapper.insertSelective(banner);
         if(count != 1){
              throw new CommonException(ExceptionEnum.SAVE_FAILURE);
@@ -39,10 +47,17 @@ public class BannerService{
      * @param id 主键
      */
     public void deleteBannerById(Integer id) {
-        int count = this.bannermapper.deleteByPrimaryKey(id);
-        if(count != 1){
-             throw new CommonException(ExceptionEnum.DELETE_FAILURE);
+        Example example = new Example(Banner.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<Banner> list = this.bannermapper.selectByExample(example);
+        if (list.size() != 1){
+            throw new CommonException(ExceptionEnum.NULL_LIST);
         }
+        Banner banner = new Banner();
+        banner.setId(list.get(0).getId());
+        banner.setDeleted("Y");
+        banner.setUpdateTime(new Date());
+        updateBanner(banner);
     }
 
     /**
@@ -51,6 +66,7 @@ public class BannerService{
      * @param banner banner对象
      */
     public void updateBanner(Banner banner) {
+        banner.setUpdateTime(new Date());
         int count = this.bannermapper.updateByPrimaryKeySelective(banner);
          if(count != 1){
              throw new CommonException(ExceptionEnum.UPDATE_FAILURE);
@@ -63,7 +79,9 @@ public class BannerService{
      * @return Banner对象集合
      */
     public List<Banner> getAllBanner() {
-        List<Banner> list = this.bannermapper.selectAll();
+        Example example = new Example(Banner.class);
+        example.createCriteria().andEqualTo("deleted","N");
+        List<Banner> list = this.bannermapper.selectByExample(example);
        if(CollectionUtils.isEmpty(list)){
             throw new CommonException(ExceptionEnum.DATA_DOES_NOT_EXIST);
         }

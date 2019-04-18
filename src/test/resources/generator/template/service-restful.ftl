@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 /**
 * @author ${author}
@@ -16,7 +18,7 @@ import java.util.List;
 @Service
 public class ${modelNameUpperCamel}Service{
 
-    @Autowired
+    @Resource
     private ${modelNameUpperCamel}Mapper ${modelNameLowerCamel}mapper;
 
     /**
@@ -25,6 +27,13 @@ public class ${modelNameUpperCamel}Service{
      * @param ${modelNameLowerCamel} ${modelNameLowerCamel}对象
      */
     public void add${modelNameUpperCamel}(${modelNameUpperCamel} ${modelNameLowerCamel}) {
+        if (${modelNameLowerCamel}.getCreatTime() == null){
+            ${modelNameLowerCamel}.setCreatTime(new Date());
+        }
+        if (${modelNameLowerCamel}.getUpdateTime() == null){
+            ${modelNameLowerCamel}.setUpdateTime(new Date());
+        }
+        ${modelNameLowerCamel}.setDeleted("N");
         int count = this.${modelNameLowerCamel}mapper.insertSelective(${modelNameLowerCamel});
         if(count != 1){
              throw new CommonException(ExceptionEnum.SAVE_FAILURE);
@@ -37,10 +46,18 @@ public class ${modelNameUpperCamel}Service{
      * @param id 主键
      */
     public void delete${modelNameUpperCamel}ById(Integer id) {
-        int count = this.${modelNameLowerCamel}mapper.deleteByPrimaryKey(id);
-        if(count != 1){
-             throw new CommonException(ExceptionEnum.DELETE_FAILURE);
+
+        Example example = new Example(${modelNameUpperCamel}.class);
+        example.createCriteria().andEqualTo("id",id);
+        List<${modelNameUpperCamel}> list = this.${modelNameLowerCamel}mapper.selectByExample(example);
+        if (list.size() != 1){
+            throw new CommonException(ExceptionEnum.NULL_LIST);
         }
+        ${modelNameUpperCamel} ${modelNameLowerCamel} = new ${modelNameUpperCamel}();
+        ${modelNameLowerCamel}.setId(list.get(0).getId());
+        ${modelNameLowerCamel}.setDeleted("Y");
+        ${modelNameLowerCamel}.setUpdateTime(new Date());
+        update${modelNameUpperCamel}(${modelNameLowerCamel});
     }
 
     /**
@@ -49,8 +66,9 @@ public class ${modelNameUpperCamel}Service{
      * @param ${modelNameLowerCamel} ${modelNameLowerCamel}对象
      */
     public void update${modelNameUpperCamel}(${modelNameUpperCamel} ${modelNameLowerCamel}) {
+        ${modelNameLowerCamel}.setUpdateTime(new Date());
         int count = this.${modelNameLowerCamel}mapper.updateByPrimaryKeySelective(${modelNameLowerCamel});
-         if(count != 1){
+        if(count != 1){
              throw new CommonException(ExceptionEnum.UPDATE_FAILURE);
         }
     }
@@ -61,8 +79,10 @@ public class ${modelNameUpperCamel}Service{
      * @return ${modelNameUpperCamel}对象集合
      */
     public List<${modelNameUpperCamel}> getAll${modelNameUpperCamel}() {
-        List<${modelNameUpperCamel}> list = this.${modelNameLowerCamel}mapper.selectAll();
-       if(CollectionUtils.isEmpty(list)){
+        Example example = new Example(${modelNameUpperCamel}.class);
+        example.createCriteria().andEqualTo("deleted","N");
+        List<${modelNameUpperCamel}> list = this.${modelNameLowerCamel}mapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(list)){
             throw new CommonException(ExceptionEnum.DATA_DOES_NOT_EXIST);
         }
         return list;

@@ -57,6 +57,7 @@ public class AnnouncementService{
         Announcement announcement = new Announcement();
         announcement.setId(list.get(0).getId());
         announcement.setDeleted("Y");
+        announcement.setUpdateTime(new Date());
         updateAnnouncement(announcement);
     }
 
@@ -66,6 +67,7 @@ public class AnnouncementService{
      * @param announcement announcement对象
      */
     public void updateAnnouncement(Announcement announcement) {
+        announcement.setUpdateTime(new Date());
         int count = this.announcementmapper.updateByPrimaryKeySelective(announcement);
          if(count != 1){
              throw new CommonException(ExceptionEnum.UPDATE_FAILURE);
@@ -78,7 +80,9 @@ public class AnnouncementService{
      * @return Announcement对象集合
      */
     public List<Announcement> getAllAnnouncement() {
-        List<Announcement> list = this.announcementmapper.selectAll();
+        Example example = new Example(Announcement.class);
+        example.createCriteria().andEqualTo("deleted","N");
+        List<Announcement> list = this.announcementmapper.selectByExample(example);
        if(CollectionUtils.isEmpty(list)){
             throw new CommonException(ExceptionEnum.DATA_DOES_NOT_EXIST);
         }

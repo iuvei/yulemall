@@ -1,6 +1,7 @@
 package com.zcf.world.controller.api;
 
 
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.User;
 import com.zcf.world.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +84,12 @@ public class UserController {
     @ApiOperation(value = "获取所有")
     @GetMapping(produces = {"application/json;charset=UTF-8"})
     public  ResponseEntity<List<User>> getAllUser() {
-       return ResponseEntity.ok(this.userService.getAllUser());
+        return ResponseEntity.ok(this.userService.getAllUser());
+    }
+
+    @ApiOperation(value = "登录")
+    @PostMapping(value = "login",produces = {"application/json;charset=UTF-8"})
+    public Body login(String phone, String password) {
+        return userService.login(phone,password);
     }
 }

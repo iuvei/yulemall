@@ -1,13 +1,14 @@
 package com.zcf.world.service.layui;
 
-import com.zcf.world.pojo.BettingRecord;
-import com.zcf.world.mapper.BettingRecordMapper;
-import com.zcf.world.common.layui.LayUiResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import tk.mybatis.mapper.entity.Example;
+import com.zcf.world.common.layui.LayUiResult;
+import com.zcf.world.mapper.BettingRecordMapper;
+import com.zcf.world.pojo.BettingRecord;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
+
+import javax.annotation.Resource;
 import java.util.List;
 /**
 * @author 许宝予
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 public class LayUiBettingRecordService{
 
-    @Autowired
+    @Resource
     private BettingRecordMapper LayUiBettingRecordMapper;
 
     /**

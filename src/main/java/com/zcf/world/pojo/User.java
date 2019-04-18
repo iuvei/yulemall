@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 /**
 * @author 许宝予
@@ -27,7 +28,7 @@ public class User{
     @ApiModelProperty(value = "支付密码", position = 5)
     private String payPwd;
     @ApiModelProperty(value = "账户余额", position = 6)
-    private Date money;
+    private BigDecimal money;
     @ApiModelProperty(value = "用户头像", position = 7)
     private String img;
     @ApiModelProperty(value = "创建时间", position = 8)

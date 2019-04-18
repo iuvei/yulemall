@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+
+import javax.annotation.Resource;
 import java.util.List;
 /**
 * @author 许宝予
@@ -16,7 +18,7 @@ import java.util.List;
 @Service
 public class QrcodeService{
 
-    @Autowired
+    @Resource
     private QrcodeMapper qrcodemapper;
 
     /**

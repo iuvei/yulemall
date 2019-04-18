@@ -1,0 +1,115 @@
+<div class="layui-form" lay-filter="item-form" id="item-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属品牌id (0不属于)</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="brandId" value="{{ d.params.brandId || '' }}" lay-verify="required" placeholder="请输入所属品牌id (0不属于)" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">二级分类 id  (0不属于)</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="reclassify" value="{{ d.params.reclassify || '' }}" lay-verify="required" placeholder="请输入二级分类 id  (0不属于)" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="itemName" value="{{ d.params.itemName || '' }}" lay-verify="required" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品介绍</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="itemIntroduce" value="{{ d.params.itemIntroduce || '' }}" lay-verify="required" placeholder="请输入商品介绍" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品进价</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="purchasingPrice" value="{{ d.params.purchasingPrice || '' }}" lay-verify="required" placeholder="请输入商品进价" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品售价</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="sellingPrice" value="{{ d.params.sellingPrice || '' }}" lay-verify="required" placeholder="请输入商品售价" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">销量</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="saleCount" value="{{ d.params.saleCount || '' }}" lay-verify="required" placeholder="请输入销量" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+     <div class="layui-form-item">
+         <label class="layui-form-label">图片</label>
+         <div class="layui-input-inline">
+             <script type="text/html" template>
+                 <input type="text" name="images" value="{{ d.params.images|| '' }}" lay-verify="required"
+                        placeholder="请上传图片" autocomplete="off" class="layui-input" id="img_url" disabled="true ">
+             </script>
+         </div>
+         <button style="float: left;" type="button" class="layui-btn" id="item-upload-item">上传图片</button>
+     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否删除N未删Y已删</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="deleted" value="{{ d.params.deleted || '' }}" lay-verify="required" placeholder="请输入是否删除N未删Y已删" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <script type="text/html" template>
+                <input type="text" name="remark" value="{{ d.params.remark || '' }}" lay-verify="required" placeholder="请输入备注" autocomplete="off" class="layui-input">
+            </script>
+        </div>
+    </div>
+    <script type="text/html" template>
+        <input type="hidden" name="id" value="{{ d.params.id|| '' }}">
+    </script>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="button" lay-submit lay-filter="item-form-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>
+<script>
+    layui.use([ 'admin', 'form', 'upload' ], function() {
+        var $ = layui.$, form = layui.form, upload = layui.upload;
+
+        form.render();//使select可以显示option
+        //-------------文件上传开始----------
+        upload.render({
+            elem : '#item-upload-item',
+            url : '/item/upload',
+            done : function(res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                console.log(res.data.src);
+                document.getElementById("img_url").value = res.data.src;//
+            }
+        });
+        //-------------文件上传结束----------
+    })
+</script>

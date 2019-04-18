@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 import tk.mybatis.mapper.entity.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.Resource;
 import java.util.List;
 /**
 * @author 许宝予
@@ -16,7 +18,7 @@ import java.util.List;
 @Service
 public class LayUiQrcodeService{
 
-    @Autowired
+    @Resource
     private QrcodeMapper LayUiQrcodeMapper;
 
     /**

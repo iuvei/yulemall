@@ -1,44 +1,43 @@
 package com.zcf.world.service.layui;
 
-import com.zcf.world.pojo.InterruptSign;
-import com.zcf.world.mapper.InterruptSignMapper;
-import com.zcf.world.common.layui.LayUiResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import tk.mybatis.mapper.entity.Example;
+import com.zcf.world.common.layui.LayUiResult;
+import com.zcf.world.mapper.ItemMapper;
+import com.zcf.world.pojo.Item;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
 /**
 * @author 许宝予
-* @date 2019/04/17
+* @date 2019/04/18
 */
 @Service
-public class LayUiInterruptSignService{
+public class LayUiItemService{
 
     @Resource
-    private InterruptSignMapper LayUiInterruptSignMapper;
+    private ItemMapper LayUiItemMapper;
 
     /**
     *新增数据
     */
-    public boolean add(InterruptSign interruptSign) {
-        return this.LayUiInterruptSignMapper.insert(interruptSign) == 1;
+    public boolean add(Item item) {
+        return this.LayUiItemMapper.insert(item) == 1;
     }
     /**
     *根据主键删除数据
     */
     public boolean delete(Integer id) {
-        return this.LayUiInterruptSignMapper.deleteByPrimaryKey(id) == 1;
+        return this.LayUiItemMapper.deleteByPrimaryKey(id) == 1;
     }
 
     /**
     *根据主键更新非空数据
     */
-    public boolean update(InterruptSign interruptSign) {
-        return this.LayUiInterruptSignMapper.updateByPrimaryKeySelective(interruptSign) == 1;
+    public boolean update(Item item) {
+        return this.LayUiItemMapper.updateByPrimaryKeySelective(item) == 1;
     }
 
     /**
@@ -46,7 +45,7 @@ public class LayUiInterruptSignService{
     */
     public LayUiResult query(Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        List<InterruptSign> list = this.LayUiInterruptSignMapper.selectAll();
+        List<Item> list = this.LayUiItemMapper.selectAll();
         return new LayUiResult("0", "查询成功", new PageInfo<>(list).getTotal(), list);
     }
 
@@ -54,10 +53,10 @@ public class LayUiInterruptSignService{
     *分页并搜索关键字
     */
      public LayUiResult search(Integer page, Integer limit,String keywords) {
-        Example example = new Example(InterruptSign.class);
+        Example example = new Example(Item.class);
         example.createCriteria().andLike("id", "%" + keywords + "%");
         PageHelper.startPage(page, limit);
-        List<InterruptSign> list = this.LayUiInterruptSignMapper.selectByExample(example);
+        List<Item> list = this.LayUiItemMapper.selectByExample(example);
         return new LayUiResult("0", "查询成功", new PageInfo<>(list).getTotal(), list);
     }
 }
