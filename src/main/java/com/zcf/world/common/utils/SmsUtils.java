@@ -79,9 +79,9 @@ public class SmsUtils {
         } catch (ClientException e) {
             e.printStackTrace();
         }
+        System.out.println("sendSmsResponse:::::::::"+sendSmsResponse);
         return sendSmsResponse;
     }
-
 
     public static QuerySendDetailsResponse querySendDetails(String bizId) throws ClientException {
         //可自助调整超时时间
@@ -111,7 +111,7 @@ public class SmsUtils {
 
     public static void main(String[] args) throws ClientException, InterruptedException {
         //发短信
-        SendSmsResponse response = sendRegister("18626017416", "18626017416");
+        SendSmsResponse response = sendRegister("17606169646", "18626017416");
         System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + response.getCode());
         System.out.println("Message=" + response.getMessage());

@@ -92,4 +92,30 @@ public class UserController {
     public Body login(String phone, String password) {
         return userService.login(phone,password);
     }
+
+    @ApiOperation(value = "注册")
+    @PostMapping(value = "insertOneUser",produces = {"application/json;charset=UTF-8"})
+    public Body insertOneUser(String phone, String password,String code) {
+        return userService.insertOneUser(phone,password,code);
+    }
+
+    @ApiOperation(value = "验证码登录")
+    @PostMapping(value = "codeLogin",produces = {"application/json;charset=UTF-8"})
+    public Body codeLogin(String phone,String code) {
+        return userService.codeLogin(phone,code);
+    }
+
+    @ApiOperation(value = "忘记密码")
+    @PostMapping(value = "updateLogin",produces = {"application/json;charset=UTF-8"})
+    public Body updateLogin(String phone,String pwd) {
+        return userService.updateLogin(phone,pwd);
+    }
+
+    @ApiOperation(value = "获取手机验证码")
+    @PostMapping(value = "getRegisterCode",produces = {"application/json;charset=UTF-8"})
+    public ResponseEntity<Void> getRegisterCode(String phone) {
+        userService.getRegisterCode(phone);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 }

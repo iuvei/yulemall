@@ -1,13 +1,13 @@
 package com.zcf.world.service;
 
-import com.zcf.world.pojo.Address;
-import com.zcf.world.mapper.AddressMapper;
-import tk.mybatis.mapper.entity.Example;
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+import com.zcf.world.mapper.AddressMapper;
+import com.zcf.world.pojo.Address;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
+
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +46,6 @@ public class AddressService{
      * @param id 主键
      */
     public void deleteAddressById(Integer id) {
-
         Example example = new Example(Address.class);
         example.createCriteria().andEqualTo("id",id);
         List<Address> list = this.addressmapper.selectByExample(example);
