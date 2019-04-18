@@ -1,6 +1,7 @@
 package com.zcf.world.controller.api;
 
 
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.Item;
 import com.zcf.world.service.ItemService;
 import org.springframework.web.bind.annotation.*;
@@ -88,5 +89,17 @@ public class ItemController {
     @GetMapping(produces = {"application/json;charset=UTF-8"})
     public  ResponseEntity<List<Item>> getAllItem() {
        return ResponseEntity.ok(this.itemService.getAllItem());
+    }
+
+    @ApiOperation(value = "首页搜索")
+    @PostMapping (value = "getsecrchItem",produces = {"application/json;charset=UTF-8"})
+    public Body getsecrchItem(String search) {
+        return this.itemService.getsecrchItem(search);
+    }
+
+    @ApiOperation(value = "猜你喜欢")
+    @GetMapping(value = "getCountTen",produces = {"application/json;charset=UTF-8"})
+    public Body getCountTen() {
+        return this.itemService.getCountTen();
     }
 }

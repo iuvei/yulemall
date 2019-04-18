@@ -2,6 +2,7 @@ package com.zcf.world.service;
 
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.mapper.ItemMapper;
 import com.zcf.world.pojo.Item;
 import org.springframework.stereotype.Service;
@@ -102,4 +103,19 @@ public class ItemService{
         return Item;
     }
 
+    /**
+     * 首页搜索
+     */
+    public Body getsecrchItem(String search){
+        List<Item> items = itemmapper.getsecrchItem(search);
+        return Body.newInstance(items);
+    }
+
+    /**
+     * 猜你喜欢   10个商品
+     */
+    public Body getCountTen(){
+        List<Item> items = itemmapper.getCountTen();
+        return Body.newInstance(items);
+    }
 }

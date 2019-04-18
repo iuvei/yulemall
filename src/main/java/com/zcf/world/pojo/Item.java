@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 /**
 * @author 许宝予
@@ -18,8 +19,6 @@ public class Item{
     @Id
     @ApiModelProperty(value = "主键", required = true, position = 1)
     private Integer id;
-    @ApiModelProperty(value = "所属品牌id (0不属于)", position = 2)
-    private Integer brandId;
     @ApiModelProperty(value = "二级分类 id  (0不属于)", position = 3)
     private Integer reclassify;
     @ApiModelProperty(value = "商品名称", position = 4)
@@ -27,9 +26,9 @@ public class Item{
     @ApiModelProperty(value = "商品介绍", position = 5)
     private String itemIntroduce;
     @ApiModelProperty(value = "商品进价", position = 6)
-    private Date purchasingPrice;
+    private BigDecimal purchasingPrice;
     @ApiModelProperty(value = "商品售价", position = 7)
-    private Date sellingPrice;
+    private BigDecimal sellingPrice;
     @ApiModelProperty(value = "销量", position = 8)
     private Integer saleCount;
     @ApiModelProperty(value = "商品列表图", position = 9)

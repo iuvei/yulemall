@@ -82,7 +82,7 @@ public class BannerService{
         Example example = new Example(Banner.class);
         example.createCriteria().andEqualTo("deleted","N");
         List<Banner> list = this.bannermapper.selectByExample(example);
-       if(CollectionUtils.isEmpty(list)){
+        if(CollectionUtils.isEmpty(list)){
             throw new CommonException(ExceptionEnum.DATA_DOES_NOT_EXIST);
         }
         return list;

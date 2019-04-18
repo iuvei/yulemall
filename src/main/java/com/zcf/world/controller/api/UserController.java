@@ -75,9 +75,9 @@ public class UserController {
     }
 
     @ApiOperation(value = "获取单个")
-    @GetMapping(value = "/{id}",produces = {"application/json;charset=UTF-8"})
+    @PostMapping(value = "getUser",produces = {"application/json;charset=UTF-8"})
     @ApiImplicitParam(name = "id", value = "主键", dataType = "Integer")
-    public ResponseEntity<User> getUser(@PathVariable Integer id) {
+    public ResponseEntity<User> getUser(Integer id) {
         return ResponseEntity.ok(this.userService.getUser(id));
     }
 
@@ -87,7 +87,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAllUser());
     }
 
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "手机号登录")
     @PostMapping(value = "login",produces = {"application/json;charset=UTF-8"})
     public Body login(String phone, String password) {
         return userService.login(phone,password);
@@ -107,8 +107,8 @@ public class UserController {
 
     @ApiOperation(value = "忘记密码")
     @PostMapping(value = "updateLogin",produces = {"application/json;charset=UTF-8"})
-    public Body updateLogin(String phone,String pwd) {
-        return userService.updateLogin(phone,pwd);
+    public Body updateLogin(String phone,String pwd,String code) {
+        return userService.updateLogin(phone,pwd,code);
     }
 
     @ApiOperation(value = "获取手机验证码")

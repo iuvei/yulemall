@@ -216,7 +216,14 @@ public class UserService{
     /**
      * 忘记密码
      */
-    public Body updateLogin(String phone,String pwd){
+    public Body updateLogin(String phone,String pwd,String code){
+
+        //取redis里面的  验证码
+        String codes = (String) redisTemplate.opsForValue().get(PHONE_NUMBER + phone);
+        if (!StringUtils.equals(codes, code)) {
+            return Body.newInstance(100,"验证码不匹配，或已过期。请重新获取");
+        }
+
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo("phone", phone)
                 .andEqualTo("deleted","N");
