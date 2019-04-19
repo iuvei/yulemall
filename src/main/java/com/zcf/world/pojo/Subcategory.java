@@ -30,6 +30,8 @@ public class Subcategory{
     private Date updateTime;
     @ApiModelProperty(value = "是否删除N未删Y已删", position = 7)
     private String deleted;
-    @ApiModelProperty(value = "备注", position = 8)
+    @ApiModelProperty(value = "是否显示在首页(0不显示1显示)", position = 8)
+    private String showHome;
+    @ApiModelProperty(value = "备注", position = 9)
     private String remark;
 }

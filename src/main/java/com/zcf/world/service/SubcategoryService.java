@@ -1,5 +1,6 @@
 package com.zcf.world.service;
 
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.Subcategory;
 import com.zcf.world.mapper.SubcategoryMapper;
 import tk.mybatis.mapper.entity.Example;
@@ -105,7 +106,22 @@ public class SubcategoryService{
     /**
      * 获取首页9个 子分类 显示
      */
+    public Body getShowHome(){
+        Example example = new Example(Subcategory.class);
+        example.createCriteria().andEqualTo("deleted","N")
+                    .andEqualTo("showHome",1);
+        List<Subcategory> list = this.subcategorymapper.selectByExample(example);
+        return Body.newInstance(list);
+    }
 
-
-
+    /**
+     * 根据一级分类 查询二级分类
+     */
+    public List<Subcategory> getCategoryList(Integer categoryId){
+        Example example = new Example(Subcategory.class);
+        example.createCriteria().andEqualTo("deleted","N")
+                .andEqualTo("categoryId",categoryId);
+        List<Subcategory> list = this.subcategorymapper.selectByExample(example);
+        return list;
+    }
 }
