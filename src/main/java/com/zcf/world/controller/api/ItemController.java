@@ -102,4 +102,10 @@ public class ItemController {
     public Body getCountTen() {
         return this.itemService.getCountTen();
     }
+
+    @ApiOperation(value = "商品详情(id)")
+    @PostMapping (value = "getOneItemDTO",produces = {"application/json;charset=UTF-8"})
+    public Body getOneItemDTO(Integer id) {
+        return this.itemService.getOneItemDTO(id);
+    }
 }

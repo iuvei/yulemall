@@ -1,5 +1,6 @@
 package com.zcf.world.mapper;
 
+import com.zcf.world.DTO.SpecDTO;
 import com.zcf.world.pojo.Item;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -25,4 +26,9 @@ public interface ItemMapper extends Mapper<Item> {
     @Select("SELECT *,RAND() as r FROM item WHERE deleted = 'N' ORDER BY r LIMIT 0,10")
     List<Item> getCountTen();
 
+
+    @Select("SELECT b.specification spec, a.sp_names spnames FROM specification_param a " +
+            "LEFT JOIN specification b ON a.specification_id = b.id " +
+            "WHERE a.item_id = #{id}")
+    List<SpecDTO> getSpec(@Param("id")Integer id);
 }

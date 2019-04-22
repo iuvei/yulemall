@@ -43,6 +43,7 @@ public enum ExceptionEnum {
     DATA_DOES_NOT_EXIST(404,"没有查询到该数据"),
     THE_DEFAULT_ADDRESS_DOES_NOT_EXIST(404,"默认地址不存在"),
     NULL_LIST(404,"未查询到数据"),
+    LIST_THROW(100,"数据异常"),
     ;
     private int code;
     private String msg;

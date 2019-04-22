@@ -1,6 +1,8 @@
 package com.zcf.world.service;
 
 import com.zcf.world.DTO.ShoppingCartDTO;
+import com.zcf.world.DTO.SpecDTO;
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.ShoppingCart;
 import com.zcf.world.mapper.ShoppingCartMapper;
 import org.springframework.util.StringUtils;
@@ -112,15 +114,41 @@ public class ShoppingCartService{
     public List<ShoppingCartDTO> getShopDTO(Integer userId){
         List<ShoppingCartDTO> allShopDTO = shoppingCartmapper.getAllShopDTO(userId);
         List<ShoppingCartDTO> shoppingCartDTOS = new ArrayList<>();
+        List a = new ArrayList();
         if (!StringUtils.isEmpty(allShopDTO)){
             for (int i = 0;i<allShopDTO.size();i++){
                 ShoppingCartDTO shoppingCartDTO = allShopDTO.get(i);
                 String[] menus = allShopDTO.get(i).getSpId().split(",");
-                shoppingCartDTO.setSpecList(Arrays.asList(menus));
+                for (int y = 0;y<menus.length;y++){
+                    List<SpecDTO> spec = shoppingCartmapper.getSpec(menus[y]);
+                    a.add(spec);
+                }
+                shoppingCartDTO.setSpecList(a);
                 shoppingCartDTOS.add(shoppingCartDTO);
             }
         }
         return shoppingCartDTOS;
+    }
+
+    /**
+     * 购物车数量加减
+     */
+    public Body updateShoppingCartNum(Integer id, Integer or){
+        if (or == 1){
+            int i = shoppingCartmapper.updateNumAdd(id);
+            if (i>0){
+                return Body.newInstance(200);
+            }else {
+                return Body.newInstance(100,"未知错误，请联系管理");
+            }
+        }else {
+            int i = shoppingCartmapper.updateNumSubtract(id);
+            if (i>0){
+                return Body.newInstance(200);
+            }else {
+                return Body.newInstance(100,"未知错误，请联系管理");
+            }
+        }
     }
 
 }

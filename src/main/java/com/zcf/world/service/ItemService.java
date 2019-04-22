@@ -1,15 +1,21 @@
 package com.zcf.world.service;
 
+import com.zcf.world.DTO.ItemDTO;
+import com.zcf.world.DTO.SpecDTO;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
 import com.zcf.world.common.utils.Body;
 import com.zcf.world.mapper.ItemMapper;
+import com.zcf.world.mapper.ItemPhotoMapper;
+import com.zcf.world.mapper.ShoppingCartMapper;
 import com.zcf.world.pojo.Item;
+import com.zcf.world.pojo.ItemPhoto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 /**
@@ -21,6 +27,10 @@ public class ItemService{
 
     @Resource
     private ItemMapper itemmapper;
+    @Resource
+    private ItemPhotoMapper itemPhotoMapper;
+    @Resource
+    private ShoppingCartMapper shoppingCartMapper;
 
     /**
      * 新增一条数据
@@ -117,5 +127,45 @@ public class ItemService{
     public Body getCountTen(){
         List<Item> items = itemmapper.getCountTen();
         return Body.newInstance(items);
+    }
+
+
+    public Body getOneItemDTO(Integer id){
+        //DTO对象
+        List<ItemDTO> itemDTOList = new ArrayList<>();
+        ItemDTO itemDTO = new ItemDTO();
+
+        //根据   商品id   获取商品图片
+        Example example = new Example(Item.class);
+        example.createCriteria().andEqualTo("deleted","N")
+                .andEqualTo("id",id);
+        List<Item> list = this.itemmapper.selectByExample(example);
+        if (list.size() != 1){
+            throw new CommonException(ExceptionEnum.LIST_THROW);
+        }
+        //获取商品图集
+        Example e = new Example(ItemPhoto.class);
+        e.createCriteria().andEqualTo("deleted","N")
+                .andEqualTo("id",id);
+        List<ItemPhoto> itemPhotos = this.itemPhotoMapper.selectByExample(e);
+        List list1 = new ArrayList();
+        for (int y = 0; y<itemPhotos.size();y++ ){
+            list1.add(itemPhotos.get(y).getImg());
+        }
+        itemDTO.setItemPhoto(list1);
+        //获取商品信息
+        for (int i = 0;i<list.size();i++){
+            itemDTO.setItemName(list.get(i).getItemName());
+            itemDTO.setItemIntroduce(list.get(i).getItemIntroduce());
+            itemDTO.setSaleCount(list.get(i).getSaleCount());
+            itemDTO.setSellingPrice(list.get(i).getSellingPrice());
+            itemDTO.setPurchasingPrice(list.get(i).getPurchasingPrice());
+            itemDTO.setImages(list.get(i).getImages());
+        }
+        List<SpecDTO> spec = itemmapper.getSpec(id);
+        itemDTO.setSpecList(spec);
+
+        itemDTOList.add(itemDTO);
+        return Body.newInstance(itemDTOList);
     }
 }

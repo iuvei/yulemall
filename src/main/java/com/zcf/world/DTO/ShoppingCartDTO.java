@@ -9,21 +9,10 @@ import java.util.List;
 @Data
 public class ShoppingCartDTO extends ShoppingCart {
 
-//    private Integer shopId;
-
     /**
      * 商品名称
      */
     private String shopName;
-
-    /**
-     * 商品规格
-     */
-    private String spec;
-    /**
-     * 商品规格参数
-     */
-    private String spNames;
     /**
      * 商品售价
      */
@@ -32,8 +21,8 @@ public class ShoppingCartDTO extends ShoppingCart {
      * 商品列表图
      */
     private String images;
-
+    /**
+     * 规格参数列表
+     */
     private List specList;
-
-    private List spNamesList;
 }

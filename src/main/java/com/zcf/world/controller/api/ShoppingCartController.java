@@ -2,6 +2,7 @@ package com.zcf.world.controller.api;
 
 
 import com.zcf.world.DTO.ShoppingCartDTO;
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.ShoppingCart;
 import com.zcf.world.service.ShoppingCartService;
 import org.springframework.web.bind.annotation.*;
@@ -87,5 +88,13 @@ public class ShoppingCartController {
     @PostMapping(value = "getShopDTO",produces = {"application/json;charset=UTF-8"})
     public List<ShoppingCartDTO> getShopDTO(Integer userId) {
         return this.shoppingCartService.getShopDTO(userId);
+    }
+
+
+
+    @ApiOperation(value = "购物车数量加减")
+    @PostMapping(value = "updateShoppingCartNum",produces = {"application/json;charset=UTF-8"})
+    public Body updateShoppingCartNum(Integer id, Integer or) {
+        return this.shoppingCartService.updateShoppingCartNum(id,or);
     }
 }
