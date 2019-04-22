@@ -36,4 +36,6 @@ public class Address{
     private String deleted;
     @ApiModelProperty(value = "备注", position = 10)
     private String remark;
+    @ApiModelProperty(value = "是否属于默认地址(1属于0不属于)", position = 11)
+    private String type;
 }
