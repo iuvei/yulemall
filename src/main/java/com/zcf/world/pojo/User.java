@@ -39,4 +39,6 @@ public class User{
     private String deleted;
     @ApiModelProperty(value = "备注", position = 11)
     private String remark;
+    @ApiModelProperty(value = "签到红包", position = 12)
+    private String signMoney;
 }

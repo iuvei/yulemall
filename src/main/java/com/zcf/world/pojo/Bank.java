@@ -30,4 +30,10 @@ public class Bank{
     private String deleted;
     @ApiModelProperty(value = "备注", position = 7)
     private String remark;
+    @ApiModelProperty(value = "持卡人", position = 8)
+    private String names;
+    @ApiModelProperty(value = "银行", position = 9)
+    private String bank;
+    @ApiModelProperty(value = "手机号", position = 10)
+    private String phone;
 }

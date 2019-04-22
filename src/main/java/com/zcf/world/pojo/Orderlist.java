@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 /**
 * @author 许宝予
@@ -31,8 +32,8 @@ public class Orderlist{
     @ApiModelProperty(value = "数量", position = 7)
     private Integer num;
     @ApiModelProperty(value = "总价", position = 8)
-    private Date totalMoney;
-    @ApiModelProperty(value = "订单状态（1待付款2待发货3待收货4待评论5售后记录）", position = 9)
+    private BigDecimal totalMoney;
+    @ApiModelProperty(value = "订单状态（1待付款2待发货3待收货4待评论5售后申请6申请记录）", position = 9)
     private String type;
     @ApiModelProperty(value = "创建时间", position = 10)
     private Date creatTime;
@@ -42,4 +43,7 @@ public class Orderlist{
     private String deleted;
     @ApiModelProperty(value = "备注", position = 13)
     private String remark;
+    @ApiModelProperty(value = "实付金额", position = 14)
+    private BigDecimal moneys;
+
 }

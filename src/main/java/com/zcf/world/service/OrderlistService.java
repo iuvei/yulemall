@@ -1,5 +1,6 @@
 package com.zcf.world.service;
 
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.Orderlist;
 import com.zcf.world.mapper.OrderlistMapper;
 import tk.mybatis.mapper.entity.Example;
@@ -9,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import com.zcf.world.common.exception.CommonException;
 import com.zcf.world.common.exception.ExceptionEnum;
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 /**
@@ -34,6 +36,18 @@ public class OrderlistService{
             orderlist.setUpdateTime(new Date());
         }
         orderlist.setDeleted("N");
+        //生成订单号
+        Calendar now = Calendar.getInstance();
+        String year = now.get(Calendar.YEAR) + "";
+        String month = (now.get(Calendar.MONTH) + 1) + "";
+        String day = now.get(Calendar.DAY_OF_MONTH) + "";
+        String hour = now.get(Calendar.HOUR_OF_DAY) + "";
+        String minute = now.get(Calendar.MINUTE) + "";
+        String second = now.get(Calendar.SECOND) + "";
+        String num = (int) ((Math.random() * 9 + 1) * 100000) + "";
+        String ding = year + month + day + hour + minute + second + num;
+        orderlist.setBuyNumbers(ding);
+
         int count = this.orderlistmapper.insertSelective(orderlist);
         if(count != 1){
              throw new CommonException(ExceptionEnum.SAVE_FAILURE);
@@ -102,6 +116,23 @@ public class OrderlistService{
         return Orderlist;
     }
 
-
-
+    /**
+     * 根据用户id、状态 查询订单信息
+     */
+    public Body getUserOrderList(Integer userId,Integer type){
+        if (type == 0 || type == null){
+            Example example = new Example(Orderlist.class);
+            example.createCriteria().andEqualTo("deleted","N")
+                        .andEqualTo("userId",userId);
+            List<Orderlist> list = this.orderlistmapper.selectByExample(example);
+            return Body.newInstance(list);
+        }else {
+            Example example = new Example(Orderlist.class);
+            example.createCriteria().andEqualTo("deleted","N")
+                    .andEqualTo("userId",userId)
+                    .andEqualTo("type",type);
+            List<Orderlist> list = this.orderlistmapper.selectByExample(example);
+            return Body.newInstance(list);
+        }
+    }
 }

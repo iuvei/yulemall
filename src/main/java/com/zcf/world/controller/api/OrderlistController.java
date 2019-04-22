@@ -1,6 +1,7 @@
 package com.zcf.world.controller.api;
 
 
+import com.zcf.world.common.utils.Body;
 import com.zcf.world.pojo.Orderlist;
 import com.zcf.world.service.OrderlistService;
 import org.springframework.web.bind.annotation.*;
@@ -65,12 +66,13 @@ public class OrderlistController {
             @ApiImplicitParam(name = "addressId", value = "地址id", dataType = "Integer"),
             @ApiImplicitParam(name = "buyNumbers", value = "订单号", dataType = "String"),
             @ApiImplicitParam(name = "num", value = "数量", dataType = "Integer"),
-            @ApiImplicitParam(name = "totalMoney", value = "总价", dataType = "Date"),
+            @ApiImplicitParam(name = "totalMoney", value = "总价", dataType = "BigDecimal"),
             @ApiImplicitParam(name = "type", value = "订单状态（1待付款2待发货3待收货4待评论5售后记录）", dataType = "String"),
             @ApiImplicitParam(name = "creatTime", value = "创建时间", dataType = "Date"),
             @ApiImplicitParam(name = "updateTime", value = "修改时间", dataType = "Date"),
             @ApiImplicitParam(name = "deleted", value = "是否删除N未删Y已删", dataType = "String"),
             @ApiImplicitParam(name = "remark", value = "备注", dataType = "String"),
+            @ApiImplicitParam(name = "moneys", value = "实付金额", dataType = "BigDecimal"),
     })
     public ResponseEntity<Void> updateOrderlist(Orderlist orderlist) {
         this.orderlistService.updateOrderlist(orderlist);
@@ -88,5 +90,11 @@ public class OrderlistController {
     @GetMapping(produces = {"application/json;charset=UTF-8"})
     public  ResponseEntity<List<Orderlist>> getAllOrderlist() {
        return ResponseEntity.ok(this.orderlistService.getAllOrderlist());
+    }
+
+    @ApiOperation(value = "根据用户id、状态 查询订单信息")
+    @PostMapping(value = "getUserOrderList",produces = {"application/json;charset=UTF-8"})
+    public Body getUserOrderList(Integer userId, Integer type) {
+        return this.orderlistService.getUserOrderList(userId, type);
     }
 }
