@@ -18,6 +18,5 @@ public class CustomWebAppConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-
     }
 }

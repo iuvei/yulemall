@@ -75,6 +75,11 @@
             <artifactId>mapper-spring-boot-starter</artifactId>
             <version>${mapper.version}</version>
         </dependency>
+        <!--定时器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
         <!--分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>

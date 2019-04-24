@@ -1,33 +1,33 @@
-<div class="layui-form" lay-filter="signRecord-form" id="signRecord-form" style="padding: 20px 30px 0 0;">
+<div class="layui-form" lay-filter="playOptions-form" id="playOptions-form" style="padding: 20px 30px 0 0;">
     <div class="layui-form-item">
-        <label class="layui-form-label">用户id</label>
+        <label class="layui-form-label">标题(如：冠亚和)</label>
         <div class="layui-input-inline">
             <script type="text/html" template>
-                <input type="text" name="userid" value="{{ d.params.userid || '' }}" lay-verify="required" placeholder="请输入用户id" autocomplete="off" class="layui-input">
+                <input type="text" name="titles" value="{{ d.params.titles || '' }}" lay-verify="required" placeholder="请输入标题(如：冠亚和)" autocomplete="off" class="layui-input">
             </script>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">连续签到天数</label>
+        <label class="layui-form-label">内容(如：冠军大)</label>
         <div class="layui-input-inline">
             <script type="text/html" template>
-                <input type="text" name="count" value="{{ d.params.count || '' }}" lay-verify="required" placeholder="请输入连续签到天数" autocomplete="off" class="layui-input">
+                <input type="text" name="contents" value="{{ d.params.contents || '' }}" lay-verify="required" placeholder="请输入内容(如：冠军大)" autocomplete="off" class="layui-input">
             </script>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">本月总共签到天数</label>
+        <label class="layui-form-label">赔率</label>
         <div class="layui-input-inline">
             <script type="text/html" template>
-                <input type="text" name="numDay" value="{{ d.params.numDay || '' }}" lay-verify="required" placeholder="请输入本月总共签到天数" autocomplete="off" class="layui-input">
+                <input type="text" name="odds" value="{{ d.params.odds || '' }}" lay-verify="required" placeholder="请输入赔率" autocomplete="off" class="layui-input">
             </script>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">是否签到(1签到2未签到)</label>
+        <label class="layui-form-label">类型(1.两面 2.1~5名 3.6~10名 4.冠亚和)</label>
         <div class="layui-input-inline">
             <script type="text/html" template>
-                <input type="text" name="type" value="{{ d.params.type || '' }}" lay-verify="required" placeholder="请输入是否签到(1签到2未签到)" autocomplete="off" class="layui-input">
+                <input type="text" name="types" value="{{ d.params.types || '' }}" lay-verify="required" placeholder="请输入类型(1.两面 2.1~5名 3.6~10名 4.冠亚和)" autocomplete="off" class="layui-input">
             </script>
         </div>
     </div>
@@ -53,7 +53,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-inline">
-            <input type="button" lay-submit lay-filter="signRecord-form-submit" value="确认" class="layui-btn">
+            <input type="button" lay-submit lay-filter="playOptions-form-submit" value="确认" class="layui-btn">
         </div>
     </div>
 </div>
@@ -64,8 +64,8 @@
         form.render();//使select可以显示option
         //-------------文件上传开始----------
         upload.render({
-            elem : '#signRecord-upload-signRecord',
-            url : '/sign/record/upload',
+            elem : '#playOptions-upload-playOptions',
+            url : '/play/options/upload',
             done : function(res) {
                 //如果上传失败
                 if (res.code > 0) {

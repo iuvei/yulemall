@@ -104,7 +104,7 @@ public class SubcategoryService{
     }
 
     /**
-     * 获取首页9个 子分类 显示
+     * 获取首页10个 子分类 显示
      */
     public Body getShowHome(){
         Example example = new Example(Subcategory.class);

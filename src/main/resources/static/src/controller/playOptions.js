@@ -42,20 +42,20 @@ layui.define(['table', 'form'], function (exports) {
 
     //**********表格显示开始**********
     table.render({
-        elem: '#LAY-signRecord-list'
-        , url: '/sign/record/query'
+        elem: '#LAY-playOptions-list'
+        , url: '/play/options/query'
         ,toolbar: true
         , cols: [[
              {field: 'id',  title: '编号'}
-            , {field: 'userid', title: ' 用户id',edit: 'text', sort: true}
-            , {field: 'count', title: ' 连续签到天数',edit: 'text', sort: true}
-            , {field: 'numDay', title: ' 本月总共签到天数',edit: 'text', sort: true}
-            , {field: 'type', title: ' 是否签到(1签到2未签到)',edit: 'text', sort: true}
+            , {field: 'titles', title: ' 标题(如：冠亚和)',edit: 'text', sort: true}
+            , {field: 'contents', title: ' 内容(如：冠军大)',edit: 'text', sort: true}
+            , {field: 'odds', title: ' 赔率',edit: 'text', sort: true}
+            , {field: 'types', title: ' 类型(1.两面 2.1~5名 3.6~10名 4.冠亚和)',edit: 'text', sort: true}
             , {field: 'deleted', title: ' 是否删除N未删Y已删',edit: 'text', sort: true}
             , {field: 'remark', title: ' 备注',edit: 'text', sort: true}
             , {field: 'createTime', title: '创建日期',templet: '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'}
             , {field: 'updateTime', title: '修改日期',templet: '<div>{{ layui.laytpl.toDateString(d.updateTime) }}</div>'}
-            , {title: '操作', width: 160, align: 'center', fixed: 'right', toolbar: '#table-signRecord-toolbar'}//设置表格工具条的名称
+            , {title: '操作', width: 160, align: 'center', fixed: 'right', toolbar: '#table-playOptions-toolbar'}//设置表格工具条的名称
         ]]
         , page: true//开启分页
         , limit: 20
@@ -65,13 +65,13 @@ layui.define(['table', 'form'], function (exports) {
     //**********表格显示开始***********
 
      //<<<<<<<<<<<<<<<监听单元格编辑开始<<<<<<<<<<<<<<<
-    table.on('edit(LAY-signRecord-list)', function(obj){
+    table.on('edit(LAY-playOptions-list)', function(obj){
         var data = obj.data //得到所在行所有键值
             $.ajax({
                 type: "POST", //请求方式 post
                 dataType: 'json', //数据类型 json
                 contentType: "application/json; charset=utf-8",
-                url: "/sign/record/update", // 请求地址
+                url: "/play/options/update", // 请求地址
                 data: JSON.stringify(data), //请求附带参数
                 success: function () {
                     layui.table.reload('LAY-userInfo-list'); //重载表格
@@ -81,27 +81,27 @@ layui.define(['table', 'form'], function (exports) {
     //<<<<<<<<<<<<<<<监听单元格编辑结束<<<<<<<<<<<<<<<
 
     //++++++++++监听工具条操作开始++++++++++
-    table.on('tool(LAY-signRecord-list)', function (obj) {//表格的名称
+    table.on('tool(LAY-playOptions-list)', function (obj) {//表格的名称
         var data = obj.data;
         if (obj.event === 'edit') {//匹配工具栏的edit字段
             admin.popup({
                 title: '修改词条信息'//标题
                 , area: ['550px', '550px']//设置弹出框大小
                 , success: function (layero, index) {
-                    view(this.id).render('signRecord/form', data).done(function () {//表单的路由
-                        form.render(null, 'signRecord-form');//读取表单的信息
+                    view(this.id).render('playOptions/form', data).done(function () {//表单的路由
+                        form.render(null, 'playOptions-form');//读取表单的信息
                         //监听提交
-                        form.on('submit(signRecord-form-submit)', function (data) {//form 表单提交的按钮
+                        form.on('submit(playOptions-form-submit)', function (data) {//form 表单提交的按钮
                             var field = data.field; //获取提交的字段
                             console.log(field)
                             $.ajax({
                                 type: "POST", //请求方式 post
                                 dataType: 'json', //数据类型 json
                                 contentType: "application/json; charset=utf-8",
-                                url: "/sign/record/update", // 请求地址
+                                url: "/play/options/update", // 请求地址
                                 data: JSON.stringify(field), //请求附带参数
                                 success: function () {//成功回调
-                                    layui.table.reload('LAY-signRecord-list'); //重载表格
+                                    layui.table.reload('LAY-playOptions-list'); //重载表格
                                     layer.close(index); //执行关闭
                                 }
                             });
@@ -112,7 +112,7 @@ layui.define(['table', 'form'], function (exports) {
         } else if (obj.event === 'del') {//匹配工具栏的del字段
             layer.confirm('确定删除词条信息？', function (index) {
                 var id = data.id;//根据数据库的字段更改data.id中id的命名
-                $.post("/sign/record/delete", {id: id}, function (data) {
+                $.post("/play/options/delete", {id: id}, function (data) {
                     obj.del();
                     layer.close(index);//执行关闭
                 })
@@ -128,19 +128,19 @@ layui.define(['table', 'form'], function (exports) {
                 title: '添加词条'//标题
                 , area: ['550px', '550px']//设置弹出框大小
                 , success: function (layero, index) {
-                    view(this.id).render('signRecord/form').done(function () {
+                    view(this.id).render('playOptions/form').done(function () {
                         //监听提交
-                        form.on('submit(signRecord-form-submit)', function (data) {
+                        form.on('submit(playOptions-form-submit)', function (data) {
                             var field = data.field; //获取提交的字段
                             console.log(field)
                             $.ajax({
                                 type: "POST", //请求方式 post
                                 dataType: 'json', //数据类型 json
                                 contentType: "application/json; charset=utf-8",
-                                url: "/sign/record/add", // 请求地址
+                                url: "/play/options/add", // 请求地址
                                 data: JSON.stringify(field), //请求附带参数
                                 success: function (data) {
-                                    layui.table.reload('LAY-signRecord-list'); //重载表格
+                                    layui.table.reload('LAY-playOptions-list'); //重载表格
                                     layer.close(index); //执行关闭
                                 }
                             });
@@ -150,26 +150,26 @@ layui.define(['table', 'form'], function (exports) {
             });
         }
     }
-    $('.layui-btn.signRecord-form').on('click', function() {var type = $(this).data('type');
+    $('.layui-btn.playOptions-form').on('click', function() {var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
     //**********新增结束**********
 
     //==========搜索开始==========
-    form.render(null, 'lay-admin-signRecord-form');
-    form.on('submit(LAY-signRecord-back-search)',
+    form.render(null, 'lay-admin-playOptions-form');
+    form.on('submit(LAY-playOptions-back-search)',
         function(data) {
             var field = data.field;
             console.log(field)
             //执行重载
-            table.reload('LAY-signRecord-list', {
+            table.reload('LAY-playOptions-list', {
                 method: "post",
-                url: "/sign/record/search",
+                url: "/play/options/search",
                 where: field
             });
         });
     //==========搜索结束==========
 
     //对外暴露的接口
-    exports('signRecord', {});
+    exports('playOptions', {});
 });

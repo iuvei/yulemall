@@ -12,7 +12,7 @@ import java.util.Date;
 public class JDBCProperties {
     //JDBC配置，请修改为你项目的实际配置
     //public static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/family?characterEncoding=utf8&useSSL=true";
-    public static final String JDBC_URL = "jdbc:mysql://localhost:3306/yulemall?characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8";
+    public static final String JDBC_URL = "jdbc:mysql://127.0.0.1:3306/yulemall?characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8";
     public static final String JDBC_USERNAME = "root";
     public static final String JDBC_PASSWORD = "root";
     public static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
